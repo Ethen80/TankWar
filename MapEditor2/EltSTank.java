@@ -13,5 +13,6 @@ public class EltSTank extends Element{
     @Override
     public void draw(Graphics graphics) {
         ImageUtil.getInstance().drawSTank(graphics,this);
+        super.draw(graphics);
     }
 }

@@ -10,5 +10,6 @@ public class EltBrick extends Element {
     @Override
     public void draw(Graphics graphics) {
         ImageUtil.getInstance().drawBrick(graphics,x,y);
+        super.draw(graphics);
     }
 }

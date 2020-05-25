@@ -10,5 +10,6 @@ public class EltGrass extends Element {
     @Override
     public void draw(Graphics graphics) {
         ImageUtil.getInstance().drawGrass(graphics,x,y);
+        super.draw(graphics);
     }
 }

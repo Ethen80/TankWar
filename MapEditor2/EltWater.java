@@ -10,5 +10,6 @@ public class EltWater extends Element {
     @Override
     public void draw(Graphics graphics) {
         ImageUtil.getInstance().drawWater(graphics,x,y);
+        super.draw(graphics);
     }
 }

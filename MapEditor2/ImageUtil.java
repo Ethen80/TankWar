@@ -17,7 +17,7 @@ public class ImageUtil {
     private int blockWater[] = {0,238,34,272};
 
     private ImageUtil() {
-        File f = new File("robots_sprite.png");//建立文件对象
+        File f = new File("F:\\Desktop\\EcliWorkSpace\\imageSrc\\robots_sprite.png");//建立文件对象
         try {//文件操作放在错误处理块中
             img = ImageIO.read(f);//从文件中读取图像
         } catch (IOException e) {

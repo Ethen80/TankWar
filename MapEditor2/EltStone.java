@@ -10,5 +10,6 @@ public class EltStone extends Element {
     @Override
     public void draw(Graphics graphics) {
         ImageUtil.getInstance().drawStone(graphics,x,y);
+        super.draw(graphics);
     }
 }
