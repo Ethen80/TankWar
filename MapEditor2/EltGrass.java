@@ -17,4 +17,9 @@ public class EltGrass extends Element {
     public Element clone() {
         return new EltGrass(x,y);
     }
+
+    @Override
+    public String toString() {
+        return "grass="+x/34+","+y/34;
+    }
 }

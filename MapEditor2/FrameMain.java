@@ -4,8 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -13,6 +16,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 public class FrameMain extends JFrame{
 
+    private PanelMain panelMain;
     public FrameMain() {
         // TODO Auto-generated constructor stub
         this.setTitle("");
@@ -32,7 +36,7 @@ public class FrameMain extends JFrame{
         panelIcon.initPanel();
         add(panelIcon,BorderLayout.WEST);
 
-        PanelMain panelMain;
+
         //新建地图面板
         panelMain = new PanelMain(this);
         panelMain.setBorder(new LineBorder(Color.BLUE));
@@ -48,6 +52,7 @@ public class FrameMain extends JFrame{
         this.setSize(800,600);
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension dm = kit.getScreenSize();
+
         this.setLocation((dm.width-800)/2, (dm.height-600)/2);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);//设置窗体可见
@@ -97,6 +102,7 @@ public class FrameMain extends JFrame{
         JMenuItem saveItem = new JMenuItem("save");//新建"open"菜单项
         //为菜单项添加Ctrl+S快捷键
         saveItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_MASK));
+        saveItem.addActionListener(new SaveItemAct());
         fileMenu.add(saveItem);//将"open"菜单项添加到"File"菜单中
     }
     private void addHelpMenu(JMenuBar menuBar) {
@@ -111,6 +117,24 @@ public class FrameMain extends JFrame{
         JMenuItem aboutItem = new JMenuItem("About");//新建"About"菜单项
         aboutItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R,InputEvent.CTRL_MASK));
         helpMenu.add(aboutItem);//将"About"菜单项添加到"Help"菜单中
+    }
+    class SaveItemAct implements ActionListener {
+
+        JFileChooser fileDialog = new JFileChooser();
+        public void actionPerformed(ActionEvent arg0) {
+
+            int state = fileDialog.showSaveDialog(null);
+            if (state == JFileChooser.APPROVE_OPTION) {
+                // 取得文件路径显示在tfDir文本框中
+                try {
+                    panelMain.saveMap(fileDialog.getSelectedFile().getAbsoluteFile());
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                System.out.println(fileDialog.getSelectedFile().getAbsoluteFile());
+            }
+        }
     }
 
 }

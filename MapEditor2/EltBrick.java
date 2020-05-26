@@ -15,4 +15,9 @@ public class EltBrick extends Element {
     public Element clone(){
         return new EltBrick(x,y);
     }
+
+    @Override
+    public String toString() {
+        return "brick="+x/34+","+y/34;
+    }
 }

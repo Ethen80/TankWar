@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.*;
 import java.util.ArrayList;
 
 public class PanelMain extends JPanel implements MouseMotionListener, MouseListener {
@@ -60,29 +61,72 @@ public class PanelMain extends JPanel implements MouseMotionListener, MouseListe
     public void mouseClicked(MouseEvent mouseEvent) {
         Element element;
         element=Operation.getInstance().getElement();
-        if(element!=null){
-            if(element instanceof EltPTank){
-                if(eltPTanks.size()<2){
-                    EltPTank addElt=(EltPTank)element.clone();
-                    addElt.x=mouseEvent.getX()/34*34;
-                    addElt.y=mouseEvent.getY()/34*34;
+        if(element!=null) {
+            if (element instanceof EltPTank) {
+                if (eltPTanks.size() < 2) {
+                    EltPTank addElt = (EltPTank) element.clone();
+                    addElt.x = mouseEvent.getX() / 34 * 34;
+                    addElt.y = mouseEvent.getY() / 34 * 34;
                     eltPTanks.add(addElt);
                 }
-            }else if(element instanceof EltSTank){
-                if(eltSTanks.size()<2){
-                    EltSTank addElt = (EltSTank)element.clone();
-                    addElt.x=mouseEvent.getX()/34*34;
-                    addElt.y=mouseEvent.getY()/34*34;
+            } else if (element instanceof EltSTank) {
+                if (eltSTanks.size() < 2) {
+                    EltSTank addElt = (EltSTank) element.clone();
+                    addElt.x = mouseEvent.getX() / 34 * 34;
+                    addElt.y = mouseEvent.getY() / 34 * 34;
                     eltSTanks.add(addElt);
                 }
+            } else if (element instanceof EltSpade) {
+                int tmpx, tmpy;
+                tmpx = mouseEvent.getX() / 34 * 34;
+                tmpy = mouseEvent.getY() / 34 * 34;
+                for (int i = elements.size() - 1; i >= 0; i--) {
+                    Element deleteElt = elements.get(i);
+                    if (deleteElt.x == tmpx && deleteElt.y == tmpy) {
+                        elements.remove(i);
+                        break;
+                    }
+                }
             }else {
-                Element addElt= element.clone();
-                addElt.x=mouseEvent.getX()/34*34;
-                addElt.y=mouseEvent.getY()/34*34;
+                Element addElt = element.clone();
+                addElt.x = mouseEvent.getX() / 34 * 34;
+                addElt.y = mouseEvent.getY() / 34 * 34;
                 elements.add(addElt);
             }
-            frameMain.repaint();
         }
+        frameMain.repaint();
+    }
+
+    public void saveMap(File file) throws FileNotFoundException {
+        //以下代码将地图元素坐标字符串存储到文件中
+        OutputStream out = new FileOutputStream(file);
+        OutputStreamWriter writer = new OutputStreamWriter(out);
+        BufferedWriter bw = new BufferedWriter(writer);
+        PrintWriter pw = new PrintWriter(bw,true);
+        //存储设置值
+        pw.println("pTankCount=5");
+        pw.println("sTankCount=1");
+        pw.println("sTankTimeCount=100");
+        //存储且只存储两个玩家坦克的位置
+        for(int i=0;i<eltPTanks.size();i++) {
+            pw.println(eltPTanks.get(i).toString());
+        }
+        for(int i=0;i<2-eltPTanks.size();i++) {
+            pw.println("pTankPos=0,0,0");
+        }
+        //存储且只存储两个精灵坦克的位置
+        for(int i=0;i<eltSTanks.size();i++) {
+            pw.println(eltSTanks.get(i).toString());
+        }
+        for(int i=0;i<2-eltSTanks.size();i++) {
+            pw.println("sTankPos=0,0,0");
+        }
+        //存储地图图块的坐标
+        for(int i=0;i<elements.size();i++) {
+            pw.println(elements.get(i).toString());
+        }
+
+        pw.close();
     }
 
     @Override

@@ -20,4 +20,9 @@ public class EltSTank extends Element{
     public Element clone() {
         return new EltSTank(x,y,direction);
     }
+
+    @Override
+    public String toString() {
+        return "sTankPos="+(x+17)+","+(y+17)+","+direction;
+    }
 }

@@ -17,4 +17,9 @@ public class EltStone extends Element {
     public Element clone() {
         return new EltStone(x,y);
     }
+
+    @Override
+    public String toString() {
+        return "stone="+x/34+","+y/34;
+    }
 }

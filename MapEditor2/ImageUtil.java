@@ -90,5 +90,9 @@ public class ImageUtil {
                 blockBrick[0], blockBrick[1],
                 blockBrick[2], blockBrick[3], null);
     }
+    public void drawSpade(Graphics g,int x,int y){
+        g.drawImage(img,x,y,x+BLOCKW,y+BLOCKW,
+                816,238,850,272,null);
+    }
 }
 

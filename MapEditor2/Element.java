@@ -31,4 +31,7 @@ public class Element {
     public Element clone(){
         return null;
     }
+    public String toString(){
+        return "";
+    }
 }

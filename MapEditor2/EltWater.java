@@ -17,4 +17,9 @@ public class EltWater extends Element {
     public Element clone() {
         return new EltWater(x,y);
     }
+
+    @Override
+    public String toString() {
+        return "water="+x/34+","+y/34;
+    }
 }
