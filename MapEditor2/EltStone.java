@@ -12,4 +12,9 @@ public class EltStone extends Element {
         ImageUtil.getInstance().drawStone(graphics,x,y);
         super.draw(graphics);
     }
+
+    @Override
+    public Element clone() {
+        return new EltStone(x,y);
+    }
 }

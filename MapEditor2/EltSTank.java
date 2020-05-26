@@ -15,4 +15,9 @@ public class EltSTank extends Element{
         ImageUtil.getInstance().drawSTank(graphics,this);
         super.draw(graphics);
     }
+
+    @Override
+    public Element clone() {
+        return new EltSTank(x,y,direction);
+    }
 }

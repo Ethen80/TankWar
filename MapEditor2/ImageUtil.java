@@ -38,7 +38,7 @@ public class ImageUtil {
 
     public void drawSTank(Graphics g,EltSTank tank) {
         g.drawImage(img, tank.x, tank.y, tank.x+BLOCKW, tank.y+BLOCKW,
-                tank.direction*34, 0, tank.direction*34+BLOCKW, 34, null);
+                tank.direction*68, 0, tank.direction*68+BLOCKW, 34, null);
     }
 
     //绘制草地图块

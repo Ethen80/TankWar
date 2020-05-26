@@ -21,6 +21,10 @@ public class Operation {
         this.x = x;
     }
 
+    public Element getElement() {
+        return element;
+    }
+
     public void setY(int y) {
         this.y = y;
     }

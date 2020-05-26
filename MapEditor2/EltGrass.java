@@ -12,4 +12,9 @@ public class EltGrass extends Element {
         ImageUtil.getInstance().drawGrass(graphics,x,y);
         super.draw(graphics);
     }
+
+    @Override
+    public Element clone() {
+        return new EltGrass(x,y);
+    }
 }

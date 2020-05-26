@@ -12,4 +12,7 @@ public class EltBrick extends Element {
         ImageUtil.getInstance().drawBrick(graphics,x,y);
         super.draw(graphics);
     }
+    public Element clone(){
+        return new EltBrick(x,y);
+    }
 }

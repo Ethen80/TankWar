@@ -28,4 +28,7 @@ public class Element {
             return null;
         }
     }
+    public Element clone(){
+        return null;
+    }
 }

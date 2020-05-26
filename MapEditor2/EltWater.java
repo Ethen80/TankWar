@@ -12,4 +12,9 @@ public class EltWater extends Element {
         ImageUtil.getInstance().drawWater(graphics,x,y);
         super.draw(graphics);
     }
+
+    @Override
+    public Element clone() {
+        return new EltWater(x,y);
+    }
 }
