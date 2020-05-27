@@ -1,5 +1,5 @@
 pTankCount=5
-sTankCount=10
+sTankCount=1
 sTankTimeCount=100
 pTankPos=350,550,0
 pTankPos=450,550,0

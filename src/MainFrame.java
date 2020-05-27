@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import MapEditor2.*;
 
 public class MainFrame extends JFrame {
     public static final int WIDTH = 800;
@@ -48,6 +49,13 @@ public class MainFrame extends JFrame {
         JMenuItem aboutItem=new JMenuItem("About");
         aboutItem.addActionListener(new AboutListener());
         helpMenu.add(aboutItem);
+        JMenu Map=new JMenu("Map");
+        Map.setMnemonic('M');
+        menuBar.add(Map);
+        JMenuItem mapEditorItem=new JMenuItem("Map Editor");
+        JMenuItem importMap=new JMenuItem("Import Map");
+        Map.add(mapEditorItem);mapEditorItem.addActionListener(new MapEditorListener());
+        Map.add(importMap);
 
         setVisible(true);
 
@@ -244,6 +252,7 @@ public class MainFrame extends JFrame {
     }
     public void startGame(){
         this.setContentPane(gamePanel);
+        this.removeKeyListener(gamePanel);
         this.addKeyListener(gamePanel);
         gamePanel.initData();
         this.revalidate();
@@ -260,6 +269,7 @@ public class MainFrame extends JFrame {
     }
     public void nextGame(){
         this.setContentPane(gamePanel);
+        this.removeKeyListener(gamePanel);
         this.addKeyListener(gamePanel);
         gamePanel.setGameLevel(gamePanel.getGameLevel()+1);
         gamePanel.initData();
@@ -270,6 +280,14 @@ public class MainFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             new AboutFrame();
+        }
+    }
+    private class MapEditorListener implements ActionListener{
+        String[] args=null;
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            MapEditor mapEditor=new MapEditor();
+            mapEditor.main(args);
         }
     }
     //TODO develop the multiple players method

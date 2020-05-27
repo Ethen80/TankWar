@@ -130,7 +130,7 @@ public class GamePanel extends JPanel implements KeyListener {
 //            spiritTank.calculateData();
 //        }
         //GENERATE NEW SPIRIT TANK
-        if(sTankCreat<map.getpTankCount()) {
+        if(sTankCreat<map.getsTankCount()) {
             try {
                 SpiritTank spiritTank = map.CreateSTank();
                 if (spiritTank != null) {
@@ -151,7 +151,7 @@ public class GamePanel extends JPanel implements KeyListener {
             if(map.isCollide(bullet)){
                 cartoons.add(new Cartoon(Cartoon.BEXPLODE,bullet.getX(),bullet.getY()));
                 playerBullets.remove(i);
-                bullet=null;
+//                bullet=null;
                 continue;
             }
             bullet.move();
@@ -402,6 +402,7 @@ public class GamePanel extends JPanel implements KeyListener {
         switch (key){
             case KeyEvent.VK_SPACE:
                 playerBullets.add(playerTank.fire());
+                System.out.println(playerBullets.size());
                 break;
             case KeyEvent.VK_ESCAPE:
                 mainFrame.removeKeyListener(this);
