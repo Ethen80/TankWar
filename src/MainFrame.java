@@ -14,6 +14,8 @@ import MapEditor2.*;
 public class MainFrame extends JFrame {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
+    public static final int GAME_MODE_SINGLE=0;
+    public static final int GAME_MODE_MULTI=1;
 
     private LoginPanel loginPanel;
     private GamePanel gamePanel;
@@ -250,10 +252,11 @@ public class MainFrame extends JFrame {
         this.addKeyListener(loginPanel);
         this.revalidate();
     }
-    public void startGame(){
+    public void startGame(int gameMode){
         this.setContentPane(gamePanel);
         this.removeKeyListener(gamePanel);
         this.addKeyListener(gamePanel);
+        gamePanel.setGameMode(gameMode);
         gamePanel.initData();
         this.revalidate();
     }

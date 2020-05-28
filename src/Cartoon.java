@@ -11,6 +11,7 @@ public class Cartoon {
     private int frameCount;
     private int frameNumber;
     private int repeatTime;
+    private int playerCode;
 
     public FinishListener finishListener;
 
@@ -58,6 +59,27 @@ public class Cartoon {
                 break;
         }
     }
+    public Cartoon(int style, int x, int y,int playerCode) {
+        this.x=x;
+        this.y=y;
+        this.playerCode=playerCode;
+        cartoonStyle=style;
+        frameNumber=0;
+        repeatTime=1;
+        finishListener=null;
+        switch (style){
+            case BEXPLODE:
+                frameCount=4;
+                break;
+            case TEXPLODE:
+                frameCount=3;
+                break;
+            case TCREAT:
+                frameCount=3;
+                repeatTime=10;
+                break;
+        }
+    }
     public void addFinishListener(FinishListener finishListener){
         this.finishListener=finishListener;
     }
@@ -68,7 +90,7 @@ public class Cartoon {
                 repeatTime--;
                 frameNumber=0;
                 if(repeatTime==0&&finishListener!=null){
-                    finishListener.doFinish();
+                    finishListener.doFinish(playerCode);
                 }
             }
         }

@@ -18,7 +18,7 @@ public class LoginPanel extends JPanel implements KeyListener {
         this.mainFrame=mainFrame;
         File f = new File("F:\\Desktop\\EcliWorkSpace\\imageSrc\\login.png");
         img= ImageIO.read(f);
-        tank = new PlayerTank(tankPos[choice][0],tankPos[choice][1]);
+        tank = new PlayerTank(tankPos[choice][0],tankPos[choice][1],0);
         tank.setDirection(Spirit.RIGHT);
     }
     public void paint(Graphics g){
@@ -36,7 +36,7 @@ public class LoginPanel extends JPanel implements KeyListener {
         switch (key){
             case KeyEvent.VK_ENTER:
                 mainFrame.removeKeyListener(this);
-                mainFrame.startGame();
+                mainFrame.startGame(choice);
                 break;
             case KeyEvent.VK_UP:
             case KeyEvent.VK_DOWN:

@@ -5,9 +5,7 @@ import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.ArrayList;
-import java.util.Random;
 
 /************************************************************************************
 * @UpdateTime 05.15 8:52
@@ -19,12 +17,24 @@ public class GamePanel extends JPanel implements KeyListener {
     private Image offScreenImage = null;
     private Graphics goffScreen = null;
 
-    private PlayerTank playerTank;
+//    private PlayerTank playerTank;
+    private ArrayList<PlayerTank> playerTanks=new ArrayList<PlayerTank>();
     private ArrayList<Bullet> playerBullets = new ArrayList<Bullet>();
     private ArrayList<SpiritTank> spiritTanks = new ArrayList<SpiritTank>();
     private ArrayList<Bullet> spiritBullets = new ArrayList<Bullet>();
     private ArrayList<Cartoon> cartoons=new ArrayList<Cartoon>();
     private int[][] hotPs = {{50,100},{350,100},{650,100}};
+
+    private static int gameMode;
+    public static int getGameMode() {
+        return gameMode;
+    }
+
+    public void setGameMode(int gameMode) {
+        this.gameMode = gameMode;
+    }
+
+
 
     private Map map;
 
@@ -50,7 +60,7 @@ public class GamePanel extends JPanel implements KeyListener {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                map.initData();
+                map.initEltData();
             }
         }
     }
@@ -68,14 +78,21 @@ public class GamePanel extends JPanel implements KeyListener {
         fr.close();
         map=new Map();
         setGameLevel(0);
-        playerTank=new PlayerTank(300,450);
-        playerTank.setCatagory(4);
-        map.initPTankData(playerTank,0);
+//        playerTank=new PlayerTank(300,450,0);
+        for(int i=gameMode;i>=0;i--){
+            playerTanks.add(new PlayerTank(0,0,i));
+        }
+        for(int i=gameMode;i>=0;i--) {
+            playerTanks.get(i).setCatagory(4);
+        }
+        playerTanks.add(new PlayerTank(400,300,1));
+        playerTanks.add(new PlayerTank(400,300,0));
         thread=new Thread((new myThread()));
         thread.start();
         sTankCreat=0;
         sTankDestroyed=0;
         pTankNumber=0;
+
     }
     private class myThread implements Runnable {
         @Override
@@ -94,8 +111,10 @@ public class GamePanel extends JPanel implements KeyListener {
     public void initData(){
         sTankCreat=0;
         sTankDestroyed=0;
-        map.initData();
-        map.initPTankData(playerTank,0);
+        map.initEltData();
+        for(int i=gameMode;i>=0;i--) {
+            map.initPTankData(playerTanks.get(i), i);
+        }
         playerBullets.clear();
         spiritBullets.clear();
         spiritTanks.clear();
@@ -107,7 +126,7 @@ public class GamePanel extends JPanel implements KeyListener {
             cartoon.calculateData();
             if(cartoon.isDead()){
                 cartoons.remove(i);
-//                cartoon.calculateData();
+                cartoon.calculateData();
             }
         }
 //        if(!map.isCollide(playerTank)){
@@ -141,10 +160,15 @@ public class GamePanel extends JPanel implements KeyListener {
                 e.printStackTrace();
             }
         }
-        if(!map.isCollide(playerTank)){
-            playerTank.move();
+        for(int i=gameMode;i>=0;i--){
+            if(!map.isCollide(playerTanks.get(i))){
+                    playerTanks.get(i).move();
+            }
         }
-        playerTank.calculateData();
+        for(int i=gameMode;i>=0;i--){
+            playerTanks.get(i).calculateData();
+        }
+//        playerTank.calculateData();
         //deal with players' Bulltes
         for(int i=playerBullets.size()-1;i>=0;i--){
             Bullet bullet = playerBullets.get(i);
@@ -199,13 +223,15 @@ public class GamePanel extends JPanel implements KeyListener {
             }
             bullet.move();
             bullet.calculateData();
-            if(playerTank.isCollide(bullet)){
-                cartoons.add(new Cartoon(Cartoon.BEXPLODE,bullet.getX(),bullet.getY()));
-                Cartoon cartoon=new Cartoon(Cartoon.TEXPLODE,playerTank.getX(),playerTank.getY());
-                cartoon.addFinishListener(new Listener1());
-                cartoons.add(cartoon);
-                spiritBullets.remove(i);
-                playerTank.setX(-1000);
+            for(int j=gameMode;j>=0;j--){
+                if(playerTanks.get(j).isCollide(bullet)){
+                    cartoons.add(new Cartoon(Cartoon.BEXPLODE,bullet.getX(),bullet.getY()));
+                    Cartoon cartoon=new Cartoon(Cartoon.TEXPLODE,playerTanks.get(j).getX(),playerTanks.get(j).getY(),j);
+                    cartoon.addFinishListener(new Listener1());
+                    cartoons.add(cartoon);
+                    spiritBullets.remove(i);
+                    playerTanks.get(j).setX(-1000);
+                }
             }
         }
         //deal with the spiritTanks' motion
@@ -244,7 +270,9 @@ public class GamePanel extends JPanel implements KeyListener {
 //        if(!map.isCollide(playerTank)){
 //            playerTank.move();
 //        }
-        playerTank.draw(goffScreen);
+        for(int i=gameMode;i>=0;i--){
+            playerTanks.get(i).draw(goffScreen);
+        }
 //        playerTank.calculateData();
         //deal with players' Bulltes
         for(int i=playerBullets.size()-1;i>=0;i--){
@@ -401,14 +429,20 @@ public class GamePanel extends JPanel implements KeyListener {
         int key = keyEvent.getKeyCode();
         switch (key){
             case KeyEvent.VK_SPACE:
-                playerBullets.add(playerTank.fire());
-                System.out.println(playerBullets.size());
+                    playerBullets.add(playerTanks.get(0).fire());
+//                    System.out.println(playerBullets.size());
+                break;
+            case KeyEvent.VK_J:
+                if (gameMode==MainFrame.GAME_MODE_MULTI)
+                    playerBullets.add(playerTanks.get(1).fire());
                 break;
             case KeyEvent.VK_ESCAPE:
                 mainFrame.removeKeyListener(this);
                 mainFrame.login();
         }
-        playerTank.keyPressed(keyEvent);
+        for(int i=gameMode;i>=0;i--) {
+            playerTanks.get(i).keyPressed(keyEvent);
+        }
     }
 
     @Override
@@ -418,11 +452,11 @@ public class GamePanel extends JPanel implements KeyListener {
     private class Listener1 extends FinishListener{
 
         @Override
-        public void doFinish() {
-            pTankNumber++;
-            if(pTankNumber<map.getpTankCount()){
+        public void doFinish(int playerCode) {
+            playerTanks.get(playerCode).deathTime++;
+            if(playerTanks.get(playerCode).deathTime <map.getpTankCount()){
                 Cartoon ct=new Cartoon(Cartoon.TCREAT,0,0);
-                map.initPCartoonData(ct,0);
+                map.initPCartoonData(ct,playerCode);
                 ct.addFinishListener(new Listener2());
                 cartoons.add(ct);
             }else {    //gameover
@@ -430,13 +464,16 @@ public class GamePanel extends JPanel implements KeyListener {
 
             }
         }
+
     }
     private class Listener2 extends FinishListener{
 
         @Override
-        public void doFinish() {
-            map.initPTankData(playerTank,0);
+        public void doFinish(int playerCode) {
+                map.initPTankData(playerTanks.get(playerCode), playerCode);
         }
+
+
     }
     //TODO slove the problem of the Tank's move when it touch the edge
     //TODO solve the problem of the exception

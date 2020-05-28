@@ -86,7 +86,7 @@ public class Map {
         grasses=new ArrayList<Point>();
         stones=new ArrayList<Point>();
         waters=new ArrayList<Point>();
-        initData();
+        initEltData();
         //将图块的行列数，转换为窗口坐标
 //        for(int i=0;i<arrBrick.length;i++) {
 //            blocks.add(new BlockBrick(arrBrick[i][0],arrBrick[i][1]));
@@ -110,7 +110,7 @@ public class Map {
 //        this.sTankCount=10;
 //        this.sTankTime=0;
     }
-    public void initData(){
+    public void initEltData(){
         sTankTime=0;
         blocks.clear();
         for(int i=0;i<bricks.size();i++) {

@@ -20,7 +20,7 @@ public class OverPanel extends JPanel implements KeyListener {
         File file=new File("F:\\Desktop\\EcliWorkSpace\\imageSrc\\game_over.png");
         img=ImageIO.read(file);
         choice=1;
-        tank=new PlayerTank(tankPos[choice][0],tankPos[choice][1]);
+        tank=new PlayerTank(tankPos[choice][0],tankPos[choice][1],0);
         tank.setDirection(Spirit.RIGHT);
     }
     public void  paint(Graphics g){
@@ -39,7 +39,7 @@ public class OverPanel extends JPanel implements KeyListener {
         switch (key){
             case KeyEvent.VK_ENTER:
                 mainFrame.removeKeyListener(this);
-                mainFrame.startGame();
+                mainFrame.startGame(GamePanel.getGameMode());
                 break;
             case KeyEvent.VK_UP:
             case KeyEvent.VK_DOWN:
