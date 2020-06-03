@@ -256,6 +256,7 @@ public class MainFrame extends JFrame {
         this.setContentPane(gamePanel);
         this.removeKeyListener(gamePanel);
         this.addKeyListener(gamePanel);
+        new AudioPlayer(AudioUtil.START).new AudioThread().start();
         gamePanel.setGameMode(gameMode);
         gamePanel.initData();
         this.revalidate();

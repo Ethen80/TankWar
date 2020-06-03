@@ -129,26 +129,7 @@ public class GamePanel extends JPanel implements KeyListener {
                 cartoon.calculateData();
             }
         }
-//        if(!map.isCollide(playerTank)){
-//            playerTank.move();
-//        }
-//        playerTank.calculateData();
-//        SpiritTank spiritTank=map.CreateSTank();
-//        if(spiritTank!=null){
-//            spiritTanks.add(spiritTank);
-//        }
-//        for(int i=spiritTanks.size()-1;i>=0;i--){
-//            spiritTank=spiritTanks.get(i);
-//            if(!map.isCollide(spiritTank)){
-//                spiritTank.move();
-//            }
-//            Bullet tmpBullet = spiritTank.fire();
-//            if(tmpBullet!=null){
-//                spiritBullets.add(tmpBullet);
-//            }
-//            spiritTank.calculateData();
-//        }
-        //GENERATE NEW SPIRIT TANK
+
         if(sTankCreat<map.getsTankCount()) {
             try {
                 SpiritTank spiritTank = map.CreateSTank();
@@ -168,12 +149,13 @@ public class GamePanel extends JPanel implements KeyListener {
         for(int i=gameMode;i>=0;i--){
             playerTanks.get(i).calculateData();
         }
-//        playerTank.calculateData();
+
         //deal with players' Bulltes
         for(int i=playerBullets.size()-1;i>=0;i--){
             Bullet bullet = playerBullets.get(i);
             if(map.isCollide(bullet)){
                 cartoons.add(new Cartoon(Cartoon.BEXPLODE,bullet.getX(),bullet.getY()));
+                new AudioPlayer(AudioUtil.HIT).new AudioThread().start();
                 playerBullets.remove(i);
 //                bullet=null;
                 continue;
@@ -188,6 +170,7 @@ public class GamePanel extends JPanel implements KeyListener {
                         if (spiritTank.isCollide(bullet)) {
                             cartoons.add(new Cartoon(Cartoon.BEXPLODE, bullet.getX(), bullet.getY()));
                             cartoons.add(new Cartoon(Cartoon.TEXPLODE, spiritTank.getX(), spiritTank.getY()));
+                            new AudioPlayer(AudioUtil.BLAST).new AudioThread().start();
                             playerBullets.remove(i);
                             spiritTanks.remove(j);
                             sTankDestroyed++;
@@ -205,6 +188,7 @@ public class GamePanel extends JPanel implements KeyListener {
                     Bullet bullet1=spiritBullets.get(k);
                     if(bullet.isCollide(bullet1)){
                         cartoons.add(new Cartoon(Cartoon.BEXPLODE,bullet1.getX(),bullet1.getY()));
+                        new AudioPlayer(AudioUtil.HIT).new AudioThread().start();
                         playerBullets.remove(i);
                         spiritBullets.remove(k);
                         bullet=null;
@@ -218,6 +202,7 @@ public class GamePanel extends JPanel implements KeyListener {
             Bullet bullet = spiritBullets.get(i);
             if(map.isCollide(bullet)){
                 cartoons.add(new Cartoon(Cartoon.BEXPLODE,bullet.getX(),bullet.getY()));
+                new AudioPlayer(AudioUtil.HIT).new AudioThread().start();
                 spiritBullets.remove(i);
                 continue;
             }
@@ -248,16 +233,7 @@ public class GamePanel extends JPanel implements KeyListener {
         }
     }
     public void paint(Graphics g){
-        //deal with the born problem of spirittank
-//        try {
-//            SpiritTank spiritTank=map.CreateSTank();
-//            if(spiritTank!=null){
-//                spiritTanks.add(spiritTank);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        //creat the second space
+
         if(offScreenImage==null){
             offScreenImage=this.createImage(MainFrame.WIDTH,MainFrame.HEIGHT);
             goffScreen=offScreenImage.getGraphics();
@@ -266,141 +242,35 @@ public class GamePanel extends JPanel implements KeyListener {
         super.paint(goffScreen);
         goffScreen.setColor(Color.BLACK);
         goffScreen.fillRect(0,0,MainFrame.WIDTH,MainFrame.HEIGHT);
-        //deal with playerTanks motion(now just one playerTank)
-//        if(!map.isCollide(playerTank)){
-//            playerTank.move();
-//        }
+
         for(int i=gameMode;i>=0;i--){
             playerTanks.get(i).draw(goffScreen);
         }
-//        playerTank.calculateData();
-        //deal with players' Bulltes
+
         for(int i=playerBullets.size()-1;i>=0;i--){
             Bullet bullet = playerBullets.get(i);
-//            if(map.isCollide(bullet)){
-//                cartoons.add(new Cartoon(Cartoon.BEXPLODE,bullet.getX(),bullet.getY()));
-//                playerBullets.remove(i);
-//                bullet=null;
-//                continue;
-//            }
-//            bullet.move();
+
             bullet.draw(goffScreen);
-//            bullet.calculateData();
-//            if(bullet!=null) {
-//                for (int j = spiritTanks.size() - 1; j >= 0; j--) {
-//                    SpiritTank spiritTank = spiritTanks.get(j);
-//                    //if the bullet attack the tank
-//                    if(bullet!=null) {
-//                        if (spiritTank.isCollide(bullet)) {
-//                            cartoons.add(new Cartoon(Cartoon.BEXPLODE, bullet.getX(), bullet.getY()));
-//                            cartoons.add(new Cartoon(Cartoon.TEXPLODE, spiritTank.getX(), spiritTank.getY()));
-//                            playerBullets.remove(i);
-//                            spiritTanks.remove(j);
-//                            bullet = null;
-//                            continue;
-//                        }
-//                    }
-//                }
-//            }
-//            if(bullet!=null){
-//                for(int k=spiritBullets.size()-1;k>=0;k--){
-//                    Bullet bullet1=spiritBullets.get(k);
-//                    if(bullet.isCollide(bullet1)){
-//                        cartoons.add(new Cartoon(Cartoon.BEXPLODE,bullet1.getX(),bullet1.getY()));
-//                        playerBullets.remove(i);
-//                        spiritBullets.remove(k);
-//                        bullet=null;
-//                        continue;
-//                    }
-//                }
-//            }
-//            switch (bullet.getState()){
-//                case Spirit.ALIVE:
-//                    bullet.move();
-//                    for(int j=spiritTanks.size()-1;j>=0;j--){
-//                        SpiritTank spiritTank=spiritTanks.get(j);
-//                        if(spiritTank.isCollide(bullet)){
-//                            bullet.setState(1);
-//                            spiritTank.setState(1);
-//                        }
-//                    }
-//                case Spirit.EXPLODE:
-//                    bullet.draw(goffScreen);
-//                    bullet.calculateData();
-//                    break;
-//                case Spirit.DIE:
-//                    playerBullets.remove(i);
-//                    break;
-//            }
+
         }
         // deal with spiritTanks' Bulltes' motion
         for(int i=spiritBullets.size()-1;i>=0;i--){
             Bullet bullet = spiritBullets.get(i);
-//            if(map.isCollide(bullet)){
-//                cartoons.add(new Cartoon(Cartoon.BEXPLODE,bullet.getX(),bullet.getY()));
-//                spiritBullets.remove(i);
-//                continue;
-//            }
-//            bullet.move();
+
             bullet.draw(goffScreen);
-//            bullet.calculateData();
-//            if(playerTank.isCollide(bullet)){
-//                cartoons.add(new Cartoon(Cartoon.BEXPLODE,bullet.getX(),bullet.getY()));
-//                Cartoon cartoon=new Cartoon(Cartoon.TEXPLODE,playerTank.getX(),playerTank.getY());
-//                cartoon.addFinishListener(new Listener1());
-//                cartoons.add(cartoon);
-//                spiritBullets.remove(i);
-//                playerTank.setX(-1000);
-//            }
-            //            switch (bullet.getState()){
-//                case Spirit.ALIVE:
-//                    bullet.move();
-//                    if(playerTank.isCollide(bullet)){
-//                        bullet.setState(Spirit.EXPLODE);
-//                        playerTank.setState(Spirit.EXPLODE);
-//                    }
-//                case Spirit.EXPLODE:
-//                    bullet.draw(goffScreen);
-//                    bullet.calculateData();
-//                    break;
-//                case Spirit.DIE:
-//                    spiritBullets.remove(i);
-//            }
+
         }
         //deal with the spiritTanks' motion
         for(int i=spiritTanks.size()-1;i>=0;i--){
             SpiritTank spiritTank=spiritTanks.get(i);
-//            if(!map.isCollide(spiritTank)){
-//                spiritTank.move();
-//            }
-//            Bullet tmpBullet=spiritTank.fire();
-//            if(tmpBullet!=null){
-//                spiritBullets.add(tmpBullet);
-//            }
+
             spiritTank.draw(goffScreen);
-//            spiritTank.calculateDate();
-            //            switch (spiritTank.getState()) {
-//                case Spirit.ALIVE:
-//                    // tank move and fire
-//                    spiritTank.move();
-//                    //deal with the bullte of spiritetank
-//                    Bullet tmpBullet=spiritTank.fire();
-//                    if(tmpBullet!=null){
-//                        spiritBullets.add(tmpBullet);
-//                    }
-//                case Spirit.EXPLODE:
-//                    spiritTank.draw(goffScreen);
-//                    spiritTank.calculateDate();
-//                    break;
-//                case Spirit.DIE:
-//                    spiritTanks.remove(i);
-//            }
+
         }
         // pot where spiritTank borns
         for(int i=0;i<hotPs.length;i++){
             ImageUtil.getInstance().drawMapBlock(goffScreen,hotPs[i][0],hotPs[i][1],ImageUtil.GRASS);
-//            goffScreen.drawImage(img,hotPs[i][0],hotPs[i][1],hotPs[i][0]+34,hotPs[i][1]+34,34*4,34*7,34*5,34*8,null);
-//            goffScreen.drawRect(hotPs[i][0],hotPs[i][1],34,34);
+
         }
         //deal with the animation
 //        for(int i=cartoons.size()-1;i>=0;i--){
@@ -410,9 +280,7 @@ public class GamePanel extends JPanel implements KeyListener {
 //            }
 //        }
         map.draw(goffScreen);
-//        spiritTanks.move();
-//        spiritTanks.draw(goffScreen);
-        //draw the Image to the screen
+
         for(int i=cartoons.size()-1;i>=0;i--){
             Cartoon cartoon=cartoons.get(i);
             cartoon.draw(goffScreen);
@@ -429,12 +297,14 @@ public class GamePanel extends JPanel implements KeyListener {
         int key = keyEvent.getKeyCode();
         switch (key){
             case KeyEvent.VK_SPACE:
-                    playerBullets.add(playerTanks.get(0).fire());
+                new AudioPlayer(AudioUtil.FIRE).new AudioThread().start();
+                playerBullets.add(playerTanks.get(0).fire());
 //                    System.out.println(playerBullets.size());
                 break;
             case KeyEvent.VK_J:
                 if (gameMode==MainFrame.GAME_MODE_MULTI)
-                    playerBullets.add(playerTanks.get(1).fire());
+                    new AudioPlayer(AudioUtil.FIRE).new AudioThread().start();
+                playerBullets.add(playerTanks.get(1).fire());
                 break;
             case KeyEvent.VK_ESCAPE:
                 mainFrame.removeKeyListener(this);
@@ -477,4 +347,5 @@ public class GamePanel extends JPanel implements KeyListener {
     }
     //TODO slove the problem of the Tank's move when it touch the edge
     //TODO solve the problem of the exception
+    //TODO fix the bug of the death of the Tank2
 }
