@@ -15,7 +15,7 @@ public class Spirit {
     protected int y;
     protected int width;
     protected int velocity;
-    protected int catagory;
+    protected int category;
     private int state;
     protected int frameState;
     protected int direction;
@@ -43,8 +43,8 @@ public class Spirit {
         return y;
     }
 
-    public int getCatagory() {
-        return catagory;
+    public int getCategory() {
+        return category;
     }
 
     public int getDirection() {
@@ -80,8 +80,8 @@ public class Spirit {
         this.direction = direction;
     }
 
-    public void setCatagory(int catagory) {
-        this.catagory = catagory;
+    public void setCategory(int category) {
+        this.category = category;
     }
 
     public void setVelocity(int velocity) {

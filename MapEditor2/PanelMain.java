@@ -15,6 +15,7 @@ public class PanelMain extends JPanel implements MouseMotionListener, MouseListe
     private int sTankTimeCount=100;
     private ArrayList<EltSTank> eltSTanks=new ArrayList<EltSTank>();
     private ArrayList<EltPTank> eltPTanks=new ArrayList<EltPTank>();
+    private EltBase eltBase;
     private ArrayList<Element> elements=new ArrayList<Element>();
     public PanelMain(FrameMain frameMain){
         this.frameMain=frameMain;
@@ -42,6 +43,8 @@ public class PanelMain extends JPanel implements MouseMotionListener, MouseListe
         for(int i=eltSTanks.size()-1;i>=0;i--){
             eltSTanks.get(i).draw(g);
         }
+        if(eltBase!=null)
+            eltBase.draw(g);
         Operation.getInstance().draw(g);
     }
 
@@ -87,6 +90,12 @@ public class PanelMain extends JPanel implements MouseMotionListener, MouseListe
                         break;
                     }
                 }
+            }else if(element instanceof EltBase){
+                if(eltBase==null){
+                    eltBase=(EltBase) element.clone();
+                    eltBase.x=mouseEvent.getX()/34*34;
+                    eltBase.y=mouseEvent.getY()/34*34;
+                }
             }else {
                 Element addElt = element.clone();
                 addElt.x = mouseEvent.getX() / 34 * 34;
@@ -121,6 +130,7 @@ public class PanelMain extends JPanel implements MouseMotionListener, MouseListe
         for(int i=0;i<2-eltSTanks.size();i++) {
             pw.println("sTankPos=0,0,0");
         }
+        pw.println(eltBase.toString());
         //存储地图图块的坐标
         for(int i=0;i<elements.size();i++) {
             pw.println(elements.get(i).toString());

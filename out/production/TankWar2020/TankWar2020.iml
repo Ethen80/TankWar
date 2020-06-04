@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/MapEditor1" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maps" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/AudioSource" type="java-resource" />
     </content>
     <content url="file://$MODULE_DIR$/../imageSrc">
       <sourceFolder url="file://$MODULE_DIR$/../imageSrc" type="java-resource" />

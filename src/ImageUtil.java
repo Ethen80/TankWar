@@ -10,8 +10,8 @@ public class ImageUtil {
     private Image img = null;
     private int imgX=0;
     private int imgY=0;
-    private int[][][] tankX=new int[8][4][2];
-    private int[] tankY={0,0,0,0,34,34,34,34};
+    private int[][][] tankX=new int[16][4][2];
+    private int[] tankY={0,0,0,0,34,34,34,34,68,68,68,68,102,102,102,102};
     private int[][] mapBlockXY={{136,238,170,272}};
     private int[][][] cartoonXY={{{544,136},{578,136},{612,136},{646,136}},
             {{680,136},{714,136},{748,136},{-34,-34}},
@@ -20,6 +20,7 @@ public class ImageUtil {
     private int[] blockBrick = {612,170,629,187};
     private int[] blockStone={0,204,17,221};
     private int[] blockWater={0,238,34,272};
+    private int[][] base={{19*BLOCKW,5*BLOCKW,20*BLOCKW,6*BLOCKW},{20*BLOCKW,5*BLOCKW,21*BLOCKW,6*BLOCKW}};
 
     private ImageUtil(){
         File f = new File("F:\\Desktop\\EcliWorkSpace\\imageSrc\\robots_sprite.png");
@@ -28,7 +29,7 @@ public class ImageUtil {
         } catch (IOException e){
             e.printStackTrace();
         }
-        for(int catagory=0;catagory<8;catagory++){
+        for(int catagory=0;catagory<16;catagory++){
             for(int direction=0;direction<4;direction++){
                 for (int frameState=0;frameState<2;frameState++){
                     tankX[catagory][direction][frameState]=((catagory%4)*8+direction*2+frameState)*BLOCKW;
@@ -58,8 +59,8 @@ public class ImageUtil {
 
     void drawTank(Graphics g, Tank tank){
         if(tank.getState()==Spirit.ALIVE){
-            imgX=tankX[tank.getCatagory()][tank.getDirection()][tank.getFrameState()];
-            imgY=tankY[tank.getCatagory()];
+            imgX=tankX[tank.getCategory()][tank.getDirection()][tank.getFrameState()];
+            imgY=tankY[tank.getCategory()];
         }else if(tank.getState()==Spirit.EXPLODE){
             imgX=680+tank.getFrameState()*BLOCKW;
             imgY=136;
@@ -89,7 +90,6 @@ public class ImageUtil {
         pos[2][1]=cartoonXY[obj.getCartoonStyle()][obj.getFrameNumber()][1];
         pos[3][0]=pos[2][0]+BLOCKW;
         pos[3][1]=pos[2][1]+BLOCKW;
-
         g.drawImage(img,pos[0][0],pos[0][1],pos[1][0],pos[1][1],pos[2][0],pos[2][1],pos[3][0],pos[3][1],null);
     }
     public void drawGrass(Graphics g,int x,int y){
@@ -132,6 +132,10 @@ public class ImageUtil {
                 blockStone[0], blockStone[1],
                 blockStone[2], blockStone[3], null);
     }
+    public void drawBase(Graphics graphics,Base b){
+                graphics.drawImage(img,b.x-BLOCKW/2,b.y-BLOCKW/2,b.x+BLOCKW/2,b.y+BLOCKW/2,
+                        base[b.getState()][0],base[b.getState()][1],base[b.getState()][2],base[b.getState()][3],null);
+        }
 
 }
 

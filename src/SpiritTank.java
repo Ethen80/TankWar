@@ -24,6 +24,7 @@ public class SpiritTank extends Tank{
         Bullet bullte=null;
         Random random=new Random();
         if(random.nextInt(30)==0) {
+            new AudioPlayer(AudioUtil.FIRE).new AudioThread().start();
             bullte=super.fire();
         }
         return bullte;

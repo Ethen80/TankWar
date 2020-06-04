@@ -90,19 +90,11 @@ public class Cartoon {
                 repeatTime--;
                 frameNumber=0;
                 if(repeatTime==0&&finishListener!=null){
-                    finishListener.doFinish(playerCode);
+                    finishListener.doFinish(this.playerCode);
                 }
             }
         }
-        //        if(repeatTime==0&&finishListener!=null){
-//            finishListener.doFinish();
-//        }else{
-//            frameNumber++;
-//            if(frameNumber==frameCount){
-//                repeatTime--;
-//                frameNumber=0;
-//            }
-//        }
+
     }
     public boolean isDead(){
         return repeatTime==0;
@@ -111,18 +103,6 @@ public class Cartoon {
         if(repeatTime!=0){
             ImageUtil.getInstance().drawCartoon(g,this);
         }
-//        boolean result = false;
-//        if(repeatTime!=0){
-//            ImageUtil.getInstance().drawCartoon(g,this);
-//            frameNumber++;
-//            if(frameNumber==frameCount){
-//                repeatTime--;
-//                frameNumber=0;
-//            }
-//            result=true;
-//        }else if(finishListener!=null){
-//            finishListener.doFinish();
-//        }
-//        return result;
+
     }
 }

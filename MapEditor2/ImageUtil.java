@@ -94,5 +94,9 @@ public class ImageUtil {
         g.drawImage(img,x,y,x+BLOCKW,y+BLOCKW,
                 816,238,850,272,null);
     }
+    public void drawBase(Graphics g,int x,int y){
+        g.drawImage(img,x,y,x+BLOCKW,y+BLOCKW,
+                19*BLOCKW,5*BLOCKW,20*BLOCKW,6*BLOCKW,null);
+    }
 }
 

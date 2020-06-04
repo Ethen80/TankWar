@@ -30,6 +30,7 @@ public class PanelIcon extends JPanel implements MouseListener {
         elements.add(new EltBrick(10,300));
         elements.add(new EltWater(50,300));
         elements.add(new EltSpade(10,350));
+        elements.add(new EltBase(50,350));
         this.addMouseListener(this);
     }
     public Element getEltSelected() {
